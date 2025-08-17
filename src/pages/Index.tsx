@@ -291,27 +291,28 @@ const Index = () => {
           streak={streak}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Add Task Form */}
-          <div className="lg:col-span-1">
+        {/* AI Assistant Section */}
+        <div className="w-full">
+          <AIAssistant />
+        </div>
+
+        {/* Progress Update and Create Dungeon Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Create New Dungeon */}
+          <div>
             <AddTaskForm 
               onAddTask={addTask}
               onGetAIMotivation={getAIMotivation}
             />
           </div>
 
-          {/* Motivational Quote */}
-          <div className="lg:col-span-1">
+          {/* Level Up Guidance */}
+          <div>
             <MotivationalQuote 
               aiMotivation={aiMotivation}
               onGetNewQuote={() => getAIMotivation()}
               isLoading={isAiLoading}
             />
-          </div>
-
-          {/* AI Assistant */}
-          <div className="lg:col-span-2">
-            <AIAssistant />
           </div>
         </div>
 
