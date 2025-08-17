@@ -3,6 +3,7 @@ import { TaskCard } from "@/components/TaskCard";
 import { AddTaskForm } from "@/components/AddTaskForm";
 import { PlayerStats } from "@/components/PlayerStats";
 import { MotivationalQuote } from "@/components/MotivationalQuote";
+import { AIAssistant } from "@/components/AIAssistant";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
@@ -290,14 +291,21 @@ const Index = () => {
           streak={streak}
         />
 
-        {/* Motivational Quote */}
-        <MotivationalQuote 
-          aiMotivation={aiMotivation}
-          onGetNewQuote={() => getAIMotivation()}
-          isLoading={isAiLoading}
-        />
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* AI Assistant */}
+          <div className="lg:col-span-1">
+            <AIAssistant />
+          </div>
+
+          {/* Motivational Quote */}
+          <div className="lg:col-span-1">
+            <MotivationalQuote 
+              aiMotivation={aiMotivation}
+              onGetNewQuote={() => getAIMotivation()}
+              isLoading={isAiLoading}
+            />
+          </div>
+
           {/* Add Task Form */}
           <div className="lg:col-span-1">
             <AddTaskForm 
@@ -305,9 +313,11 @@ const Index = () => {
               onGetAIMotivation={getAIMotivation}
             />
           </div>
+        </div>
 
-          {/* Tasks Section */}
-          <div className="lg:col-span-2">
+        
+        {/* Tasks Section */}
+        <div className="w-full">
             <Tabs defaultValue="active" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted border border-primary/20">
                 <TabsTrigger value="active" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
@@ -366,7 +376,6 @@ const Index = () => {
                 )}
               </TabsContent>
             </Tabs>
-          </div>
         </div>
       </div>
     </div>
