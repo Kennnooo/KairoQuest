@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   id: string;
@@ -18,11 +19,12 @@ interface AIAssistantProps {
 }
 
 export const AIAssistant = ({ className }: AIAssistantProps) => {
+  const { toast } = useToast();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       type: 'system',
-      content: "🌟 **Hunter System AI Assistant** 🌟\n\nGreetings, Hunter! I'm here to help you on your journey to S-Rank. Ask me about:\n\n✨ How to use this webapp effectively\n⚔️ Quest suggestions to level up\n🎯 Life advice to become your best self\n🏆 Strategies to maximize your progress\n\nWhat would you like to know?",
+      content: "🌟 **Hunter System AI Assistant** 🌟\n\nGreetings, Hunter! I'm powered by advanced AI and ready to help you with:\n\n✨ Any questions about this webapp\n⚔️ Quest and life advice\n🤖 General knowledge and assistance\n🏆 Strategies for personal growth\n\nWhat would you like to know?",
       timestamp: new Date()
     }
   ]);
@@ -30,62 +32,36 @@ export const AIAssistant = ({ className }: AIAssistantProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const generateAIResponse = async (userMessage: string): Promise<string> => {
-    // Simulate AI processing
     setIsLoading(true);
     
     try {
-      // Create a context-aware response based on the user's question
-      const lowerMessage = userMessage.toLowerCase();
-      
-      if (lowerMessage.includes('how') && (lowerMessage.includes('use') || lowerMessage.includes('work'))) {
-        return `🎮 **Hunter System Guide**
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-ai`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          isSystemContext: true
+        }),
+      });
 
-**Creating Dungeons (Tasks):**
-• Click "CREATE DUNGEON" to add new quests
-• Choose difficulty rank (E to S-Rank)
-• Set estimated time and XP rewards
-• Add subtasks for complex dungeons
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to get AI response');
+      }
 
-**Progress Tracking:**
-• Manual progress: Use +25%/-25% buttons
-• Subtask progress: Automatically calculated
-• Time tracking: Log hours spent on quests
-
-**Leveling Up:**
-• Complete dungeons to gain XP
-• Higher difficulty = more XP rewards
-• Maintain daily streaks for bonus rewards
-• Reach new hunter ranks as you level up!`;
-      }
-      
-      if (lowerMessage.includes('quest') || lowerMessage.includes('dungeon') || lowerMessage.includes('task')) {
-        const questSuggestions = [
-          "📚 **Learning Dungeons:**\n• Complete online course (B-Rank)\n• Read 1 book this month (A-Rank)\n• Learn new programming language (S-Rank)",
-          "💪 **Fitness Dungeons:**\n• 30-day workout challenge (A-Rank)\n• Run 5km daily for a week (B-Rank)\n• Master a new yoga pose (C-Rank)",
-          "🎨 **Creative Dungeons:**\n• Write a short story (B-Rank)\n• Learn to play a song (A-Rank)\n• Complete art project (C-Rank)",
-          "🏠 **Life Skills Dungeons:**\n• Organize entire room (C-Rank)\n• Learn to cook new recipe (D-Rank)\n• Fix something broken (B-Rank)"
-        ];
-        
-        const randomSuggestion = questSuggestions[Math.floor(Math.random() * questSuggestions.length)];
-        return `⚔️ **Quest Suggestions for Your Hunter Journey**\n\n${randomSuggestion}\n\n💡 **Pro Tip:** Start with lower rank dungeons to build momentum, then challenge yourself with S-Rank quests!`;
-      }
-      
-      if (lowerMessage.includes('life') || lowerMessage.includes('better') || lowerMessage.includes('improve') || lowerMessage.includes('advice')) {
-        const lifeAdvice = [
-          "🌱 **Growth Mindset:** Every failure is XP gained. Each setback teaches valuable lessons that make you stronger for the next challenge.",
-          "⚡ **Consistency Over Intensity:** Small daily actions compound into extraordinary results. Better to do 15 minutes daily than 3 hours once a week.",
-          "🎯 **Focus on Systems:** Don't just set goals, build systems. Good systems create lasting habits that automatically drive you toward success.",
-          "🤝 **Build Your Guild:** Surround yourself with people who challenge and support you. Even solo hunters need allies.",
-          "🧘 **Rest is Part of Training:** Recovery isn't laziness—it's preparation. Your mind and body need downtime to perform at S-Rank level."
-        ];
-        
-        const randomAdvice = lifeAdvice[Math.floor(Math.random() * lifeAdvice.length)];
-        return `✨ **Wisdom from the Hunter's Path**\n\n${randomAdvice}\n\n🏆 Remember: Becoming S-Rank in life isn't about perfection—it's about persistent growth and embracing the journey!`;
-      }
-      
-      // Default response for other questions
-      return `🤖 **System Processing...**\n\nI understand you're asking about: "${userMessage}"\n\nAs your Hunter System AI, I can help you with:\n\n🎮 **Webapp Usage** - How to navigate and use features\n⚔️ **Quest Planning** - Suggestions for meaningful challenges\n🌟 **Personal Growth** - Life advice and motivation\n📊 **Progress Optimization** - Tips to level up faster\n\nCould you be more specific about what area you'd like guidance on?`;
-      
+      return data.response;
+    } catch (error) {
+      console.error('AI Assistant error:', error);
+      toast({
+        title: "System Error",
+        description: "Unable to reach AI core. Please try again.",
+        variant: "destructive"
+      });
+      return "🔧 **System Maintenance**: The AI core is temporarily offline. Please try again in a moment, Hunter.";
     } finally {
       setIsLoading(false);
     }
@@ -199,12 +175,12 @@ export const AIAssistant = ({ className }: AIAssistantProps) => {
           </Button>
         </div>
         
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap mt-3">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setInput("How do I use this webapp?")}
-            className="text-xs border-primary/30 hover:border-primary/60"
+            className="text-xs border-primary/30 hover:border-primary/60 hover:bg-primary/10"
           >
             📱 How to use
           </Button>
@@ -212,7 +188,7 @@ export const AIAssistant = ({ className }: AIAssistantProps) => {
             variant="outline"
             size="sm"
             onClick={() => setInput("Suggest some good quests for me")}
-            className="text-xs border-primary/30 hover:border-primary/60"
+            className="text-xs border-primary/30 hover:border-primary/60 hover:bg-primary/10"
           >
             ⚔️ Quest ideas
           </Button>
@@ -220,7 +196,7 @@ export const AIAssistant = ({ className }: AIAssistantProps) => {
             variant="outline"
             size="sm"
             onClick={() => setInput("Give me life advice")}
-            className="text-xs border-primary/30 hover:border-primary/60"
+            className="text-xs border-primary/30 hover:border-primary/60 hover:bg-primary/10"
           >
             ✨ Life advice
           </Button>
