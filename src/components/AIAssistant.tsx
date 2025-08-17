@@ -6,6 +6,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
 
 interface Message {
   id: string;
@@ -35,22 +36,15 @@ export const AIAssistant = ({ className }: AIAssistantProps) => {
     setIsLoading(true);
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-ai`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('chat-ai', {
+        body: {
           message: userMessage,
           isSystemContext: true
-        }),
+        }
       });
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to get AI response');
+      if (error) {
+        throw error;
       }
 
       return data.response;
@@ -111,7 +105,7 @@ export const AIAssistant = ({ className }: AIAssistantProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ScrollArea className="h-80 w-full rounded-md border border-primary/20 p-4 bg-muted/30">
+        <ScrollArea className="h-96 w-full rounded-md border border-primary/20 p-4 bg-muted/30">
           <div className="space-y-4">
             {messages.map((message) => (
               <div

@@ -291,10 +291,13 @@ const Index = () => {
           streak={streak}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* AI Assistant */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Add Task Form */}
           <div className="lg:col-span-1">
-            <AIAssistant />
+            <AddTaskForm 
+              onAddTask={addTask}
+              onGetAIMotivation={getAIMotivation}
+            />
           </div>
 
           {/* Motivational Quote */}
@@ -306,19 +309,16 @@ const Index = () => {
             />
           </div>
 
-          {/* Add Task Form */}
-          <div className="lg:col-span-1">
-            <AddTaskForm 
-              onAddTask={addTask}
-              onGetAIMotivation={getAIMotivation}
-            />
+          {/* AI Assistant */}
+          <div className="lg:col-span-2">
+            <AIAssistant />
           </div>
         </div>
 
         
         {/* Tasks Section */}
         <div className="w-full">
-            <Tabs defaultValue="active" className="w-full">
+          <Tabs defaultValue="active" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted border border-primary/20">
                 <TabsTrigger value="active" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                   <Target className="w-4 h-4" />
