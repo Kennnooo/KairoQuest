@@ -18,7 +18,7 @@ interface Task {
   id: string;
   title: string;
   description: string;
-  priority: "low" | "medium" | "high" | "critical";
+  priority: "e" | "d" | "c" | "b" | "a" | "s";
   category: string;
   completed: boolean;
   xp: number;
@@ -43,18 +43,18 @@ const Index = () => {
     const sampleTasks: Task[] = [
       {
         id: "1",
-        title: "Complete React Tutorial",
-        description: "Master the fundamentals of React development",
-        priority: "high",
+        title: "Master Advanced React Patterns",
+        description: "Complete comprehensive training in React development",
+        priority: "b",
         category: "Study",
         completed: false,
-        xp: 50,
+        xp: 100,
         progress: 60,
         subtasks: [
-          { id: "1-1", title: "Learn Components", completed: true },
-          { id: "1-2", title: "Understand Props", completed: true },
-          { id: "1-3", title: "Master Hooks", completed: false },
-          { id: "1-4", title: "Build Practice Project", completed: false }
+          { id: "1-1", title: "Study Hooks Architecture", completed: true },
+          { id: "1-2", title: "Implement Context Patterns", completed: true },
+          { id: "1-3", title: "Master Performance Optimization", completed: false },
+          { id: "1-4", title: "Build Advanced Demo Project", completed: false }
         ],
         timeSpent: 120,
         estimatedTime: 180,
@@ -62,16 +62,16 @@ const Index = () => {
       },
       {
         id: "2", 
-        title: "Morning Workout",
-        description: "30 minutes of strength training",
-        priority: "medium",
+        title: "Daily Combat Training",
+        description: "Physical conditioning and strength enhancement",
+        priority: "c",
         category: "Health",
         completed: true,
-        xp: 25,
+        xp: 50,
         progress: 100,
         subtasks: [],
-        timeSpent: 30,
-        estimatedTime: 30,
+        timeSpent: 45,
+        estimatedTime: 45,
         createdAt: new Date()
       }
     ];
@@ -84,10 +84,12 @@ const Index = () => {
 
   const addTask = (newTaskData: Omit<Task, "id" | "completed" | "xp" | "progress" | "subtasks" | "timeSpent" | "estimatedTime" | "createdAt">) => {
     const xpValue = {
-      low: 10,
-      medium: 25, 
-      high: 50,
-      critical: 100
+      e: 10,
+      d: 25, 
+      c: 50,
+      b: 100,
+      a: 200,
+      s: 500
     }[newTaskData.priority];
 
     const newTask: Task = {
@@ -104,8 +106,8 @@ const Index = () => {
 
     setTasks(prev => [newTask, ...prev]);
     toast({
-      title: "New Quest Added!",
-      description: `"${newTask.title}" has been added to your adventure log.`,
+      title: "System Notification",
+      description: `New dungeon "${newTask.title}" has been registered to your hunter profile.`,
     });
   };
 
@@ -119,13 +121,13 @@ const Index = () => {
         if (newLevel > playerLevel) {
           setPlayerLevel(newLevel);
           toast({
-            title: "🎉 LEVEL UP!",
-            description: `Congratulations! You've reached Level ${newLevel}!`,
+            title: "🎆 RANK UP!",
+            description: `Congratulations! You've achieved Level ${newLevel}!`,
           });
         } else {
           toast({
-            title: "Quest Complete!",
-            description: `+${task.xp} XP earned! Keep pushing forward!`,
+            title: "Dungeon Cleared!",
+            description: `+${task.xp} EXP gained! Continue your ascent, Hunter.`,
           });
         }
         
@@ -186,15 +188,15 @@ const Index = () => {
     
     toast({
       title: "Time Logged!",
-      description: `Added ${minutes} minutes to your quest.`,
+      description: `Added ${minutes} minutes to dungeon progress.`,
     });
   };
 
   const deleteTask = (taskId: string) => {
     setTasks(prev => prev.filter(task => task.id !== taskId));
     toast({
-      title: "Quest Removed",
-      description: "Task has been removed from your adventure log.",
+      title: "Dungeon Removed",
+      description: "Dungeon has been removed from your hunter registry.",
     });
   };
 
@@ -202,28 +204,28 @@ const Index = () => {
     setIsAiLoading(true);
     try {
       // Mock AI response for now - in a real app, you'd call an AI API
-      const motivations = [
-        `Remember, ${taskTitle ? `completing "${taskTitle}"` : 'every task you finish'} brings you one step closer to your dreams! Just like Luffy never gives up on becoming Pirate King, you can achieve anything with determination!`,
-        `Channel your inner Goku! Each challenge is a chance to grow stronger. Push through the difficulty and emerge victorious!`,
-        `Like Vegeta's relentless training, your consistency in tackling tasks will make you unstoppable. Prince of productivity, that's you!`,
-        `Every great adventure starts with a single step. Your journey to productivity mastery is just like the Straw Hat's grand voyage - full of growth and discovery!`,
-        `Power up your productivity! Remember, even the strongest warriors like Goku started small. Each completed task is training for your ultimate transformation!`
-      ];
+        const motivations = [
+          `System Analysis: ${taskTitle ? `Completing "${taskTitle}"` : 'Every dungeon you clear'} increases your hunter ranking significantly. Your dedication mirrors the top S-Rank hunters.`,
+          `Power Assessment: Like all great hunters, growth comes through facing increasingly difficult challenges. You're on the path to awakening your true potential.`,
+          `System Advisory: Consistent effort in clearing dungeons has been proven to unlock hidden abilities. Your persistence is being monitored and evaluated positively.`,
+          `Hunter Database: Records show that those who never give up on their missions eventually surpass all expectations. Continue your ascent, Hunter.`,
+          `System Core Message: Every task completed strengthens your resolve and increases your capabilities. You're becoming stronger with each cleared objective.`
+        ];
       
       setTimeout(() => {
         const randomMotivation = motivations[Math.floor(Math.random() * motivations.length)];
         setAiMotivation(randomMotivation);
         setIsAiLoading(false);
         toast({
-          title: "AI Motivation Unlocked!",
-          description: "Your personal motivation coach has spoken!",
+          title: "System Analysis Complete!",
+          description: "AI guidance protocol has been updated.",
         });
       }, 1500);
     } catch (error) {
       setIsAiLoading(false);
       toast({
-        title: "Oops!",
-        description: "Couldn't get AI motivation right now. Try again later!",
+        title: "System Error",
+        description: "Unable to access AI guidance. Please try again later.",
         variant: "destructive"
       });
     }
@@ -238,14 +240,14 @@ const Index = () => {
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <Swords className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              Productivity Quest
+            <Zap className="w-10 h-10 text-primary animate-shadow-pulse" />
+            <h1 className="text-5xl font-bold bg-gradient-system bg-clip-text text-transparent">
+              HUNTER SYSTEM
             </h1>
-            <Swords className="w-8 h-8 text-primary scale-x-[-1]" />
+            <Zap className="w-10 h-10 text-primary animate-shadow-pulse scale-x-[-1]" />
           </div>
           <p className="text-muted-foreground text-lg">
-            Embark on your journey to become the ultimate productivity warrior!
+            Welcome, Hunter. Your journey to S-Rank begins now.
           </p>
         </div>
 
@@ -278,14 +280,14 @@ const Index = () => {
           {/* Tasks Section */}
           <div className="lg:col-span-2">
             <Tabs defaultValue="active" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="active" className="flex items-center gap-2">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted border border-primary/20">
+                <TabsTrigger value="active" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                   <Target className="w-4 h-4" />
-                  Active Quests ({activeTasks.length})
+                  Active Dungeons ({activeTasks.length})
                 </TabsTrigger>
-                <TabsTrigger value="completed" className="flex items-center gap-2">
+                <TabsTrigger value="completed" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                   <Trophy className="w-4 h-4" />
-                  Completed ({completedTasksList.length})
+                  Cleared ({completedTasksList.length})
                 </TabsTrigger>
               </TabsList>
 
@@ -306,8 +308,8 @@ const Index = () => {
                 ) : (
                   <div className="text-center py-12 text-muted-foreground">
                     <Zap className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg">No active quests!</p>
-                    <p>Create your first quest to begin your adventure.</p>
+                    <p className="text-lg">No active dungeons!</p>
+                    <p>Register your first dungeon to begin hunting.</p>
                   </div>
                 )}
               </TabsContent>
@@ -329,8 +331,8 @@ const Index = () => {
                 ) : (
                   <div className="text-center py-12 text-muted-foreground">
                     <Trophy className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg">No completed quests yet!</p>
-                    <p>Complete your first quest to see it here.</p>
+                    <p className="text-lg">No cleared dungeons yet!</p>
+                    <p>Complete your first dungeon to see it here.</p>
                   </div>
                 )}
               </TabsContent>

@@ -62,7 +62,12 @@ export default {
 					foreground: 'hsl(var(--warning-foreground))'
 				},
 				experience: 'hsl(var(--experience))',
-				'level-up': 'hsl(var(--level-up))',
+				'rank-s': 'hsl(var(--rank-s))',
+				'rank-a': 'hsl(var(--rank-a))',
+				'rank-b': 'hsl(var(--rank-b))',
+				'rank-c': 'hsl(var(--rank-c))',
+				'rank-d': 'hsl(var(--rank-d))',
+				'rank-e': 'hsl(var(--rank-e))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -96,15 +101,26 @@ export default {
 						height: '0'
 					}
 				},
-				'power-up': {
-					'0%': { transform: 'scale(1)', boxShadow: '0 0 0 0 hsl(var(--primary) / 0.7)' },
-					'70%': { transform: 'scale(1.02)', boxShadow: '0 0 0 10px hsl(var(--primary) / 0)' },
-					'100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 hsl(var(--primary) / 0)' }
+				'system-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px hsl(var(--primary) / 0.5)',
+						transform: 'scale(1)'
+					},
+					'50%': { 
+						boxShadow: '0 0 30px hsl(var(--primary) / 0.8)',
+						transform: 'scale(1.02)'
+					}
 				},
-				'level-up': {
-					'0%': { transform: 'scale(1) rotate(0deg)', filter: 'brightness(1)' },
-					'50%': { transform: 'scale(1.1) rotate(3deg)', filter: 'brightness(1.2)' },
-					'100%': { transform: 'scale(1) rotate(0deg)', filter: 'brightness(1)' }
+				'rank-up': {
+					'0%': { transform: 'scale(1)', filter: 'brightness(1) hue-rotate(0deg)' },
+					'25%': { transform: 'scale(1.05)', filter: 'brightness(1.3) hue-rotate(10deg)' },
+					'50%': { transform: 'scale(1.1)', filter: 'brightness(1.5) hue-rotate(20deg)' },
+					'75%': { transform: 'scale(1.05)', filter: 'brightness(1.3) hue-rotate(10deg)' },
+					'100%': { transform: 'scale(1)', filter: 'brightness(1) hue-rotate(0deg)' }
+				},
+				'shadow-pulse': {
+					'0%, 100%': { boxShadow: 'var(--glow-shadow)' },
+					'50%': { boxShadow: 'var(--glow-system)' }
 				},
 				'progress-fill': {
 					'0%': { width: '0%' },
@@ -118,20 +134,20 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'power-up': 'power-up 2s infinite',
-				'level-up': 'level-up 0.6s ease-in-out',
+				'system-glow': 'system-glow 3s ease-in-out infinite',
+				'rank-up': 'rank-up 0.8s ease-in-out',
 				'progress-fill': 'progress-fill 1s ease-out forwards',
-				'glow': 'glow 2s ease-in-out infinite alternate'
+				'shadow-pulse': 'shadow-pulse 2s ease-in-out infinite alternate'
 			},
 			backgroundImage: {
-				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-power': 'var(--gradient-power)',
-				'gradient-progress': 'var(--gradient-progress)'
+				'gradient-system': 'var(--gradient-system)',
+				'gradient-shadow': 'var(--gradient-shadow)',
+				'gradient-rank': 'var(--gradient-rank)'
 			},
 			boxShadow: {
-				'anime': 'var(--shadow-anime)',
-				'glow-primary': 'var(--glow-primary)',
-				'glow-secondary': 'var(--glow-secondary)'
+				'hunter': 'var(--shadow-hunter)',
+				'glow-system': 'var(--glow-system)',
+				'glow-shadow': 'var(--glow-shadow)'
 			}
 		}
 	},

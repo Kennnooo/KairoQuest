@@ -2,65 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Anime-inspired productivity app design system */
+/* Solo Leveling inspired design system */
 
 @layer base {
   :root {
-    /* Cozy anime-inspired color palette */
-    --background: 35 20% 98%;
-    --foreground: 230 25% 15%;
+    /* Dark Solo Leveling color palette */
+    --background: 220 25% 8%;
+    --foreground: 210 20% 95%;
 
-    --card: 40 15% 96%;
-    --card-foreground: 230 25% 15%;
+    --card: 220 20% 12%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 40 15% 96%;
-    --popover-foreground: 230 25% 15%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 210 20% 95%;
 
-    /* Warm sunset orange (One Piece adventure spirit) */
-    --primary: 25 85% 58%;
+    /* System purple (Solo Leveling signature color) */
+    --primary: 270 80% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 25 75% 65%;
+    --primary-glow: 270 90% 70%;
 
-    /* Soft sky blue (Dragon Ball energy) */
-    --secondary: 200 50% 70%;
-    --secondary-foreground: 230 25% 15%;
+    /* Hunter blue (for system elements) */
+    --secondary: 220 80% 65%;
+    --secondary-foreground: 220 25% 8%;
 
-    /* Gentle lavender (mystical/magic vibes) */
-    --accent: 260 40% 75%;
-    --accent-foreground: 230 25% 15%;
+    /* Shadow purple (for accents) */
+    --accent: 285 65% 55%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Cozy neutrals */
-    --muted: 35 15% 92%;
-    --muted-foreground: 230 15% 45%;
+    /* Dark neutrals */
+    --muted: 220 20% 15%;
+    --muted-foreground: 210 15% 65%;
 
     --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 35 20% 88%;
-    --input: 35 20% 94%;
-    --ring: 25 85% 58%;
+    --border: 220 25% 20%;
+    --input: 220 25% 15%;
+    --ring: 270 80% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Anime-style special colors */
+    /* Solo Leveling special colors */
     --success: 140 60% 50%;
     --success-foreground: 0 0% 100%;
     --warning: 45 90% 60%;
-    --warning-foreground: 230 25% 15%;
-    --experience: 280 70% 65%;
-    --level-up: 60 80% 55%;
+    --warning-foreground: 220 25% 8%;
+    --experience: 270 90% 70%;
+    --rank-s: 300 100% 70%;
+    --rank-a: 45 100% 60%;
+    --rank-b: 220 100% 60%;
+    --rank-c: 120 60% 50%;
+    --rank-d: 30 80% 55%;
+    --rank-e: 0 50% 60%;
 
-    /* Gradients for anime effects */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-power: linear-gradient(90deg, hsl(var(--secondary)), hsl(var(--accent)));
-    --gradient-progress: linear-gradient(90deg, hsl(var(--experience)), hsl(var(--level-up)));
+    /* System gradients */
+    --gradient-system: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-shadow: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)));
+    --gradient-rank: linear-gradient(90deg, hsl(var(--rank-s)), hsl(var(--rank-a)));
     
-    /* Shadows and effects */
-    --glow-primary: 0 4px 20px hsl(var(--primary) / 0.3);
-    --glow-secondary: 0 4px 15px hsl(var(--secondary) / 0.25);
-    --shadow-anime: 0 8px 25px -5px hsl(var(--foreground) / 0.1);
+    /* Glowing effects */
+    --glow-system: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3);
+    --glow-shadow: 0 0 15px hsl(var(--accent) / 0.4);
+    --shadow-hunter: 0 8px 32px -8px hsl(var(--primary) / 0.3);
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 220 25% 10%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
 
