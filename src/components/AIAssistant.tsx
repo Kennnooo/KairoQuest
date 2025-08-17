@@ -6,7 +6,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   id: string;
