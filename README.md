@@ -35,7 +35,8 @@
 
 ## 💡 Inspiration
 
-**This project is inspired by the idea of turning boring productivity tools into something fun and motivating. With influences from Solo Leveling’s quest system and the adventurous vibes of One Piece and Dragon Ball, Questify helps you stay on track while enjoying the journey.**
+**This project is inspired by the idea of turning boring productivity tools into something fun and motivating. With influences from Solo Leveling’s quest system and the adventurous vibes of One Piece and Dragon Ball, KairoQuest
+helps you stay on track while enjoying the journey.**
 
 ---
 
