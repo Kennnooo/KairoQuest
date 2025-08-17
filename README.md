@@ -1,6 +1,6 @@
-# ⚔️ Questify - Anime-Inspired Productivity App  
+# ⚔️ KairoQuest - Anime-Inspired Productivity App  
 
-**Questify** is a cozy anime-themed productivity web app that transforms your daily tasks into epic quests. Inspired by *Solo Leveling*, *One Piece*, and *Dragon Ball*, this app gamifies productivity by letting you complete "quests," earn progress, and stay motivated. Made By Vibe Coding
+**KairoQuest** is a cozy anime-themed productivity web app that transforms your daily tasks into epic quests. Inspired by *Solo Leveling*, *One Piece*, and *Dragon Ball*, this app gamifies productivity by letting you complete "quests," earn progress, and stay motivated. Made By Vibe Coding
 
 ✨ Powered by AI, it helps you prioritize tasks, keep track of progress, and stay consistent with your goals — all while feeling like the hero of your own story.  
 
