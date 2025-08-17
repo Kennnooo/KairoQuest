@@ -6,21 +6,23 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface ChatMessage {
-  role: string;
-  content: string;
-}
-
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
+    console.log("Chat AI function started");
+    
     const { message, isSystemContext } = await req.json();
+    console.log("Received message:", message);
+    console.log("System context:", isSystemContext);
+    
     const apiKey = Deno.env.get("OPENAI_API_KEY");
+    console.log("API key exists:", !!apiKey);
 
     if (!apiKey) {
+      console.error("OpenAI API key not found");
       throw new Error("OpenAI API key not configured");
     }
 
@@ -41,6 +43,8 @@ Always respond in a helpful, encouraging tone with a slight Solo Leveling theme 
     }
     messages.push({ role: "user", content: message });
 
+    console.log("Calling OpenAI API...");
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -55,14 +59,19 @@ Always respond in a helpful, encouraging tone with a slight Solo Leveling theme 
       }),
     });
 
+    console.log("OpenAI API response status:", response.status);
+
     if (!response.ok) {
       const errorData = await response.text();
-      console.error("OpenAI API error:", errorData);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      console.error("OpenAI API error response:", errorData);
+      throw new Error(`OpenAI API error: ${response.status} - ${errorData}`);
     }
 
     const data = await response.json();
+    console.log("OpenAI API response received");
+    
     const aiResponse = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
+    console.log("AI response generated successfully");
 
     return new Response(
       JSON.stringify({ response: aiResponse }),
@@ -71,7 +80,8 @@ Always respond in a helpful, encouraging tone with a slight Solo Leveling theme 
       }
     );
   } catch (error) {
-    console.error("Error in chat-ai function:", error);
+    console.error("Error in chat-ai function:", error.message);
+    console.error("Full error:", error);
     return new Response(
       JSON.stringify({ 
         error: error.message,
