@@ -2,41 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Anime-inspired productivity app design system */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cozy anime-inspired color palette */
+    --background: 35 20% 98%;
+    --foreground: 230 25% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 40 15% 96%;
+    --card-foreground: 230 25% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 40 15% 96%;
+    --popover-foreground: 230 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Warm sunset orange (One Piece adventure spirit) */
+    --primary: 25 85% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 25 75% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft sky blue (Dragon Ball energy) */
+    --secondary: 200 50% 70%;
+    --secondary-foreground: 230 25% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Gentle lavender (mystical/magic vibes) */
+    --accent: 260 40% 75%;
+    --accent-foreground: 230 25% 15%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Cozy neutrals */
+    --muted: 35 15% 92%;
+    --muted-foreground: 230 15% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 35 20% 88%;
+    --input: 35 20% 94%;
+    --ring: 25 85% 58%;
 
     --radius: 0.5rem;
+
+    /* Anime-style special colors */
+    --success: 140 60% 50%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 90% 60%;
+    --warning-foreground: 230 25% 15%;
+    --experience: 280 70% 65%;
+    --level-up: 60 80% 55%;
+
+    /* Gradients for anime effects */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-power: linear-gradient(90deg, hsl(var(--secondary)), hsl(var(--accent)));
+    --gradient-progress: linear-gradient(90deg, hsl(var(--experience)), hsl(var(--level-up)));
+    
+    /* Shadows and effects */
+    --glow-primary: 0 4px 20px hsl(var(--primary) / 0.3);
+    --glow-secondary: 0 4px 15px hsl(var(--secondary) / 0.25);
+    --shadow-anime: 0 8px 25px -5px hsl(var(--foreground) / 0.1);
 
     --sidebar-background: 0 0% 98%;
 
