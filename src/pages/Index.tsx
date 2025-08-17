@@ -8,6 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Swords, Target, Trophy, Zap } from "lucide-react";
 
+interface Subtask {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
 interface Task {
   id: string;
   title: string;
@@ -17,6 +23,9 @@ interface Task {
   completed: boolean;
   xp: number;
   progress: number;
+  subtasks: Subtask[];
+  timeSpent: number; // in minutes
+  estimatedTime: number; // in minutes
   createdAt: Date;
 }
 
@@ -40,7 +49,15 @@ const Index = () => {
         category: "Study",
         completed: false,
         xp: 50,
-        progress: 75,
+        progress: 60,
+        subtasks: [
+          { id: "1-1", title: "Learn Components", completed: true },
+          { id: "1-2", title: "Understand Props", completed: true },
+          { id: "1-3", title: "Master Hooks", completed: false },
+          { id: "1-4", title: "Build Practice Project", completed: false }
+        ],
+        timeSpent: 120,
+        estimatedTime: 180,
         createdAt: new Date()
       },
       {
@@ -52,6 +69,9 @@ const Index = () => {
         completed: true,
         xp: 25,
         progress: 100,
+        subtasks: [],
+        timeSpent: 30,
+        estimatedTime: 30,
         createdAt: new Date()
       }
     ];
@@ -62,7 +82,7 @@ const Index = () => {
   const xpToNextLevel = 200;
   const completedTasks = tasks.filter(task => task.completed).length;
 
-  const addTask = (newTaskData: Omit<Task, "id" | "completed" | "xp" | "progress" | "createdAt">) => {
+  const addTask = (newTaskData: Omit<Task, "id" | "completed" | "xp" | "progress" | "subtasks" | "timeSpent" | "estimatedTime" | "createdAt">) => {
     const xpValue = {
       low: 10,
       medium: 25, 
@@ -76,6 +96,9 @@ const Index = () => {
       completed: false,
       xp: xpValue,
       progress: 0,
+      subtasks: [],
+      timeSpent: 0,
+      estimatedTime: 60, // default 1 hour
       createdAt: new Date()
     };
 
@@ -109,10 +132,62 @@ const Index = () => {
         return { ...task, completed: true, progress: 100 };
       } else if (task.id === taskId && task.completed) {
         setPlayerXP(prev => Math.max(0, prev - task.xp));
-        return { ...task, completed: false, progress: 75 };
+        return { ...task, completed: false, progress: task.subtasks.length > 0 
+          ? (task.subtasks.filter(st => st.completed).length / task.subtasks.length) * 100 
+          : Math.max(task.progress, 50) };
       }
       return task;
     }));
+  };
+
+  const updateTaskProgress = (taskId: string, newProgress: number) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId ? { ...task, progress: newProgress } : task
+    ));
+  };
+
+  const addSubtask = (taskId: string, subtaskTitle: string) => {
+    setTasks(prev => prev.map(task => {
+      if (task.id === taskId) {
+        const newSubtask: Subtask = {
+          id: `${taskId}-${Date.now()}`,
+          title: subtaskTitle,
+          completed: false
+        };
+        return { ...task, subtasks: [...task.subtasks, newSubtask] };
+      }
+      return task;
+    }));
+  };
+
+  const toggleSubtask = (taskId: string, subtaskId: string) => {
+    setTasks(prev => prev.map(task => {
+      if (task.id === taskId) {
+        const updatedSubtasks = task.subtasks.map(subtask =>
+          subtask.id === subtaskId 
+            ? { ...subtask, completed: !subtask.completed }
+            : subtask
+        );
+        const completedCount = updatedSubtasks.filter(st => st.completed).length;
+        const newProgress = (completedCount / updatedSubtasks.length) * 100;
+        
+        return { ...task, subtasks: updatedSubtasks, progress: newProgress };
+      }
+      return task;
+    }));
+  };
+
+  const addTimeToTask = (taskId: string, minutes: number) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId 
+        ? { ...task, timeSpent: task.timeSpent + minutes }
+        : task
+    ));
+    
+    toast({
+      title: "Time Logged!",
+      description: `Added ${minutes} minutes to your quest.`,
+    });
   };
 
   const deleteTask = (taskId: string) => {
@@ -222,6 +297,10 @@ const Index = () => {
                       task={task}
                       onToggleComplete={toggleTaskComplete}
                       onDelete={deleteTask}
+                      onUpdateProgress={updateTaskProgress}
+                      onAddSubtask={addSubtask}
+                      onToggleSubtask={toggleSubtask}
+                      onAddTime={addTimeToTask}
                     />
                   ))
                 ) : (
@@ -241,6 +320,10 @@ const Index = () => {
                       task={task}
                       onToggleComplete={toggleTaskComplete}
                       onDelete={deleteTask}
+                      onUpdateProgress={updateTaskProgress}
+                      onAddSubtask={addSubtask}
+                      onToggleSubtask={toggleSubtask}
+                      onAddTime={addTimeToTask}
                     />
                   ))
                 ) : (
