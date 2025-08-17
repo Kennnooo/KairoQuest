@@ -6,6 +6,7 @@ import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { getUserData, setUserData } from "@/lib/storage";
 import { Swords, Target, Trophy, Zap } from "lucide-react";
 
 interface Subtask {
@@ -30,23 +31,18 @@ interface Task {
 }
 
 const Index = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [playerLevel, setPlayerLevel] = useState(1);
-  const [playerXP, setPlayerXP] = useState(0);
-  const [streak, setStreak] = useState(3);
-  const [aiMotivation, setAiMotivation] = useState<string>("");
-  const [isAiLoading, setIsAiLoading] = useState(false);
   const { toast } = useToast();
-
-  // Load sample tasks on first render
-  useEffect(() => {
-    const sampleTasks: Task[] = [
+  
+  // Load user-specific data from storage
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = getUserData('tasks');
+    return savedTasks || [
       {
         id: "1",
         title: "Master Advanced React Patterns",
         description: "Complete comprehensive training in React development",
         priority: "b",
-        category: "Study",
+        category: "Knowledge Dungeon",
         completed: false,
         xp: 100,
         progress: 60,
@@ -65,19 +61,52 @@ const Index = () => {
         title: "Daily Combat Training",
         description: "Physical conditioning and strength enhancement",
         priority: "c",
-        category: "Health",
-        completed: true,
+        category: "Training Ground",
+        completed: false,
         xp: 50,
-        progress: 100,
+        progress: 0,
         subtasks: [],
-        timeSpent: 45,
+        timeSpent: 0,
         estimatedTime: 45,
         createdAt: new Date()
       }
     ];
-    setTasks(sampleTasks);
-    setPlayerXP(125);
-  }, []);
+  });
+
+  const [playerLevel, setPlayerLevel] = useState(() => {
+    const savedLevel = getUserData('playerLevel');
+    return savedLevel || 1;
+  });
+
+  const [playerXP, setPlayerXP] = useState(() => {
+    const savedXP = getUserData('playerXP');
+    return savedXP || 0;
+  });
+
+  const [streak, setStreak] = useState(() => {
+    const savedStreak = getUserData('streak');
+    return savedStreak || 0;
+  });
+
+  const [aiMotivation, setAiMotivation] = useState<string>("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  // Save data whenever state changes
+  useEffect(() => {
+    setUserData('tasks', tasks);
+  }, [tasks]);
+
+  useEffect(() => {
+    setUserData('playerLevel', playerLevel);
+  }, [playerLevel]);
+
+  useEffect(() => {
+    setUserData('playerXP', playerXP);
+  }, [playerXP]);
+
+  useEffect(() => {
+    setUserData('streak', streak);
+  }, [streak]);
 
   const xpToNextLevel = 200;
   const completedTasks = tasks.filter(task => task.completed).length;

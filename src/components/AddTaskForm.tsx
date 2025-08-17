@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Plus, Zap } from "lucide-react";
+import { Plus, Zap, X } from "lucide-react";
 
 interface NewTask {
   title: string;
@@ -58,6 +58,16 @@ export const AddTaskForm = ({ onAddTask, onGetAIMotivation }: AddTaskFormProps) 
   return (
     <Card className="p-6 shadow-hunter bg-card border-2 border-primary/30 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-system opacity-5 pointer-events-none" />
+      
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => setIsOpen(false)}
+        className="absolute top-4 right-4 z-20 text-muted-foreground hover:text-foreground"
+      >
+        <X className="w-4 h-4" />
+      </Button>
       
       <h3 className="text-xl font-bold mb-6 text-primary relative z-10">SYSTEM: CREATE DUNGEON</h3>
       
